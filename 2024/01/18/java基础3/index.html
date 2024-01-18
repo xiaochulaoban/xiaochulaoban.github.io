@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="01：异常 Exception和Error有什么区别 在Java中，所有的异常类都有一个共同的祖先java.lang包中的Throwable类。  Exception:程序本身可以处理的异常，可以通过catch来捕获。Exception又可以分为Checked Exception(受检查异常，必须处理)和Uncked Exception（不受检查异常，可以不处理） Error:Error属于程序无">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xiaochuhome">
+<meta property="og:url" content="http://example.com/2024/01/18/java%E5%9F%BA%E7%A1%803/index.html">
+<meta property="og:site_name" content="xiaochuhome">
+<meta property="og:description" content="01：异常 Exception和Error有什么区别 在Java中，所有的异常类都有一个共同的祖先java.lang包中的Throwable类。  Exception:程序本身可以处理的异常，可以通过catch来捕获。Exception又可以分为Checked Exception(受检查异常，必须处理)和Uncked Exception（不受检查异常，可以不处理） Error:Error属于程序无">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="article:published_time" content="2024-01-18T09:37:41.030Z">
+<meta property="article:modified_time" content="2024-01-10T04:00:13.243Z">
+<meta property="article:author" content="zhenxing Chu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/404.jpg">
+
+
+<title >xiaochuhome</title>
+
+<!-- Favicon -->
+
+    <link href='/img/favicon.svg?v=2.1.0-beta.2' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/img/favicon.svg?v=2.1.0-beta.2' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"zhenxing Chu","root":"/","typed_text":null,"theme_version":"2.1.0-beta.2","theme":{"switch":true,"default":"style-light"},"favicon":{"logo":"/img/favicon.svg","icon16":"/img/favicon.svg","icon32":"/img/favicon.svg","appleTouchIcon":null,"webmanifest":null,"visibilitychange":false,"hidden":"/failure.ico","showText":"(/≧▽≦/)Hey! Good again!","hideText":"(●—●)Oh, crash!"},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode","notice_outdate_message":"It has been undefined days since the last update, the content of the article may be outdated.","just":"Just","min":"minutes ago","hour":"hours ago","day":"days ago","month":"months ago"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","user_tag":"fas fa-user-alt","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"prismjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2024-01-10 12:00:13"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.1.0-beta.2" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+ 
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" style="opacity: 0">
+            <!-- top bar -->
+            <header class="trm-top-bar">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/img/favicon.svg">
+    
+    
+        <div class="trm-logo-text">
+            Async<span>Theme</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    Home
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/archives/" target="">
+                    Archives
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2024
+                                    </span>
+                                </li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <span id="scroll-triger" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </span>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div id="page-sidebar" class="col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    <div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card"> 
+        <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20">
+        <img alt="Avatar" class="trm-avatar" src="/img/avatar.jpg">
+    </div>
+    <h5 class="trm-name trm-mb-15">
+        ThemeAsync
+    </h5>
+    
+</div>
+<!-- card header end -->
+        <!-- sidebar social -->
+
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<div class="trm-social">
+    
+        <a href="https://github.com" title="Github" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-github"></i>
+        </a>
+    
+</div>
+
+<!-- sidebar social end -->
+        <!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                Residence:
+            </div>
+            <div class="trm-label trm-label-light">
+                Mars
+            </div>
+        </li>
+    
+</ul>
+<!-- info end -->
+
+        
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div id="page-content" class="col-lg-8">
+                <div class="trm-content" id="trm-content">
+                    <div id="post-info" class="row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            01/18
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            17:37
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            zhenxing Chu
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h3 id="01：异常"><a href="#01：异常" class="headerlink" title="01：异常"></a>01：异常</h3><p><img src="C:\Users\Acer\AppData\Roaming\Typora\typora-user-images\image-20240108122515054.png" alt="image-20240108122515054" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<p><strong>Exception和Error有什么区别</strong></p>
+<p>在Java中，所有的异常类都有一个共同的祖先java.lang包中的Throwable类。</p>
+<ul>
+<li>Exception:程序本身可以处理的异常，可以通过catch来捕获。Exception又可以分为Checked Exception(受检查异常，必须处理)和Uncked Exception（不受检查异常，可以不处理）</li>
+<li>Error:Error属于程序无法处理的错误，不建议通过catch捕获。例如：Java虚拟机运行错误（Virtual MachineError）这些异常发生时,Java虚拟机（JVM）一般会选择线程终止。</li>
+</ul>
+<p><strong>Checked Exception和Unchecked Exception有什么区别?</strong></p>
+<ul>
+<li>**Checked Exception:**即受检查异常，Java代码在编译过程中，如果受检查异常没有被catch或者throws关键字处理的话，就没办法通过编译.除了 <strong>RuntimeException</strong>及其子类以外，其他的Exception类及其子类都属于受检查异常，常见的受检查异常有：IO相关异常、ClassNotFoundException…。</li>
+<li>Unchecked Exception即不受检查异常，Java代码在编译过程中，即时不处理Unchecked Exception也可以正常通过编译。</li>
+</ul>
+<p><strong>RuntimeException</strong>及其子类都统称为非受检查异常，常见的有</p>
+<ul>
+<li>NullPointerException:空指针错误</li>
+<li>IllegalArgumentException:参数类型错误，比如方法入参类型错误</li>
+<li>NumberFormatException：字符串转换为数字格式错误（IllegalArgumentException的子类）</li>
+<li>ArrayIndexOutOfBoundsException:数组越界错误</li>
+<li>ClassCastException：类型转换错误</li>
+<li>ArithmeticException算术错误</li>
+<li>SecurityException:安全错误，比如权限不够</li>
+</ul>
+<h3 id="02：Throwable类常用方法有哪些？"><a href="#02：Throwable类常用方法有哪些？" class="headerlink" title="02：Throwable类常用方法有哪些？"></a>02：Throwable类常用方法有哪些？</h3><ul>
+<li>String getMessage():返回异常发生时的简要描述</li>
+<li>String toString():返回异常发生时的详细信息</li>
+<li>String getLocalizedMessage():返回异常对象的本地化信息。使用Throwable的子类覆盖这个方法，可以生成本地化信息，如果子类没有覆盖该方法，则该方法返回的信息与getmessage()返回的结果相同</li>
+<li>void printStackTrace():在控制台上打印Throwable对象封装的异常信息。</li>
+</ul>
+<h3 id="03：try-catch-finally如何使用"><a href="#03：try-catch-finally如何使用" class="headerlink" title="03：try-catch-finally如何使用"></a>03：try-catch-finally如何使用</h3><ul>
+<li>try块用于捕获异常。其后可接零个或多个catch块，如果没有catch块，则必须跟一个finally块</li>
+<li>catch块用于处理try捕获到的异常</li>
+<li>finally块：无论是否捕获或处理异常，finally块里的语句都会被执行，当在try块或catch块中遇到return语句时，finally语句块将在方法返回之前被执行。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;Try to do something&quot;</span>);</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;RuntimeException&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;Catch Exception -&gt; &quot;</span> + e.getMessage());</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;Finally&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>不要在finally语句块中使用retrun</strong>:当try语句和finally语句中都有retrun语句时，try语句块中的return语句会被忽略。这是因为try语句中的return返回值会先被暂存在一个本地变量中，当执行到finally语句中的return之后，这个本地变量的值就变为finally语句中的return返回值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    System.out.println(f(<span class="number">2</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">f</span><span class="params">(<span class="type">int</span> value)</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> value * value;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (value == <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//输出</span></span><br><span class="line"><span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="04：finally中的代码一定会被执行吗？"><a href="#04：finally中的代码一定会被执行吗？" class="headerlink" title="04：finally中的代码一定会被执行吗？"></a>04：finally中的代码一定会被执行吗？</h3><p>不一定！在某些情况下，finally中的代码不会被执行</p>
+<p>例如：finally之前虚拟机就被终止运行的话，finally中的代码就不会被执行</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;Try to do something&quot;</span>);</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;RuntimeException&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;Catch Exception -&gt; &quot;</span> + e.getMessage());</span><br><span class="line">    <span class="comment">// 终止当前正在运行的Java虚拟机</span></span><br><span class="line">    System.exit(<span class="number">1</span>);</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;Finally&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>除此以外：在以下两种特殊情况下，finally块的代码页不会被执行</p>
+<ul>
+<li>程序所在的线程死亡</li>
+<li>关闭cpu</li>
+</ul>
+<h3 id="05-如何使用try-with-resources代替try-catch-finally"><a href="#05-如何使用try-with-resources代替try-catch-finally" class="headerlink" title="05:如何使用try-with-resources代替try-catch-finally?"></a>05:如何使用try-with-resources代替try-catch-finally?</h3><ul>
+<li>适用范围：任何实现java.lang.AutoCloseable或者java.io.Closeable的对象</li>
+<li>关闭资源和finally块的执行顺序：在try-with-resources语句中，任何catch或finally块在声明的资源关闭后运行</li>
+</ul>
+<p>Java中类似于InputStream\OutputStream\Scanner\PrintWriter等的资源都需要调用close()方法来手动关闭，一般情况适用try-catch-finally语句来实现这个需求，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//读取文本文件的内容</span></span><br><span class="line"><span class="type">Scanner</span> <span class="variable">scanner</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    scanner = <span class="keyword">new</span> <span class="title class_">Scanner</span>(<span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;D://read.txt&quot;</span>));</span><br><span class="line">    <span class="keyword">while</span> (scanner.hasNext()) &#123;</span><br><span class="line">        System.out.println(scanner.nextLine());</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (scanner != <span class="literal">null</span>) &#123;</span><br><span class="line">        scanner.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用Java7以后的try-with-resources语句改造上面的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> (<span class="type">Scanner</span> <span class="variable">scanner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(<span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;test.txt&quot;</span>))) &#123;</span><br><span class="line">    <span class="keyword">while</span> (scanner.hasNext()) &#123;</span><br><span class="line">        System.out.println(scanner.nextLine());</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> (FileNotFoundException fnfe) &#123;</span><br><span class="line">    fnfe.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>当有多个资源需要关闭的时候，通过使用 <strong>“；”</strong>分割开，可以在try-with-resources块中声明多个资源</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> (<span class="type">BufferedInputStream</span> <span class="variable">bin</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(<span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;test.txt&quot;</span>)));</span><br><span class="line">     <span class="type">BufferedOutputStream</span> <span class="variable">bout</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedOutputStream</span>(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;out.txt&quot;</span>)))) &#123;</span><br><span class="line">    <span class="type">int</span> b;</span><br><span class="line">    <span class="keyword">while</span> ((b = bin.read()) != -<span class="number">1</span>) &#123;</span><br><span class="line">        bout.write(b);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="06-异常使用有哪些需要注意的地方"><a href="#06-异常使用有哪些需要注意的地方" class="headerlink" title="06:异常使用有哪些需要注意的地方"></a>06:异常使用有哪些需要注意的地方</h3><ul>
+<li><strong>不要把异常定义为静态变量</strong>，因为这样会导致异常栈信息错乱，每次手动抛出异常，我们都需要手动new一个异常对象抛出.</li>
+<li>抛出的异常信息一定要有意义</li>
+<li>建议抛出更加具体的异常：比如字符串转换为数字格式错误的时候应该抛出<code>NumberFormatException</code>而不是其父类<code>IllegalArgumentException</code>。</li>
+<li>使用日志打印异常之后就不要再抛出异常了。</li>
+</ul>
+<h3 id="07：什么是泛型？有什么作用"><a href="#07：什么是泛型？有什么作用" class="headerlink" title="07：什么是泛型？有什么作用"></a>07：什么是泛型？有什么作用</h3><p>Java泛型是JDK5中引入的一个新特性，使用泛型参数，可以增强代码的可读性以及稳定性。编译器可以对泛型参数进行检测，并且通过泛型参数可以指定传入的对象类型。</p>
+<p>例如：原生List的返回类型是<code>Object</code>类，需要手动转换类型才能使用，使用泛型后编译器自动转换</p>
+<h3 id="08-泛型的使用方式有哪几种"><a href="#08-泛型的使用方式有哪几种" class="headerlink" title="08:泛型的使用方式有哪几种"></a>08:泛型的使用方式有哪几种</h3><p>泛型一般有三种使用方式：泛型类、泛型接口、泛型方法</p>
+<ul>
+<li><p>泛型类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//此处T可以随便写为任意标识，常见的如T、E、K、V等形式的参数常用于表示泛型</span></span><br><span class="line"><span class="comment">//在实例化泛型类时，必须指定T的具体类型</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Generic</span>&lt;T&gt;&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> T key;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Generic</span><span class="params">(T key)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.key = key;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> T <span class="title function_">getKey</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> key;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>泛型接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Generator</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">public</span> T <span class="title function_">method</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>实现泛型接口不指定类型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">GeneratorImpl</span>&lt;T&gt; <span class="keyword">implements</span> <span class="title class_">Generator</span>&lt;T&gt;&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> T <span class="title function_">method</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>实现泛型接口指定类型：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">GeneratorImpl</span>&lt;T&gt; <span class="keyword">implements</span> <span class="title class_">Generator</span>&lt;String&gt;&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">method</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;hello&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>泛型方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt; E &gt; <span class="keyword">void</span> <span class="title function_">printArray</span><span class="params">( E[] inputArray )</span></span><br><span class="line">&#123;</span><br><span class="line">      <span class="keyword">for</span> ( E element : inputArray )&#123;</span><br><span class="line">         System.out.printf( <span class="string">&quot;%s &quot;</span>, element );</span><br><span class="line">      &#125;</span><br><span class="line">      System.out.println();</span><br><span class="line"> &#125;</span><br><span class="line">  </span><br></pre></td></tr></table></figure>
+
+<p><strong>为什么泛型方法不能使用类中声明的泛型？</strong>上述泛型方法一般成为静态泛型方法，在Java中泛型只是一个占位符，必须在传递类型后才能使用。类在实例化时才能真正的传递参数，由于<strong>静态方法</strong>的加载<strong>先于</strong>类的实例化，也就是说类中的泛型还没有传递真正的类型参数，静态方法的加载就已经完成了，所以静态泛型方法是没有办法使用类上声明的泛型的，只能使用自己声明的<code>&lt;E&gt;</code></p>
+</li>
+</ul>
+<h3 id="09-项目里哪里用到了泛型"><a href="#09-项目里哪里用到了泛型" class="headerlink" title="09:项目里哪里用到了泛型"></a>09:项目里哪里用到了泛型</h3><ul>
+<li>构建集合工具类（参考 <code>Collections</code> 中的 <code>sort</code>, <code>binarySearch</code> 方法）</li>
+<li>自定义接口通用返回结果CommonResult<T></li>
+<li>JDBC中的查询，返回类型，为了通用定义的就是泛型</li>
+</ul>
+<h3 id="10：反射"><a href="#10：反射" class="headerlink" title="10：反射"></a>10：反射</h3><p>反射赋予了我们在运行时分析类以及执行类中方法的能力，通过反射可以获取任意一个类的所有属性和方法，还可以调用这些方法和属性。</p>
+<h3 id="11：反射的优缺点"><a href="#11：反射的优缺点" class="headerlink" title="11：反射的优缺点"></a>11：反射的优缺点</h3><p>反射可以让我们的代码更加灵活，但也增加了安全问题，比如可以无视泛型参数的安全检查（泛型参数的安全检查发生在编译时）.另外，反射的性能也要差点。</p>
+<h3 id="12：为什么通过反射就可以越过泛型检查"><a href="#12：为什么通过反射就可以越过泛型检查" class="headerlink" title="12：为什么通过反射就可以越过泛型检查"></a>12：为什么通过反射就可以越过泛型检查</h3><p>因为Java类，在编译时期会对泛型进行检查(.java-&gt;javac编译-&gt;.class)，但是当类被转化为字节码文件（.class）时候，（也就是运行期间，没有泛型）泛型就被擦除了，也就没有了泛型检查，所有可以通过反射来越过泛型检查。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception, Exception &#123;</span><br><span class="line">		 ArrayList&lt;Integer&gt; arrayList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">		 arrayList.add(<span class="number">1</span>);</span><br><span class="line">		 arrayList.add(<span class="number">2</span>);</span><br><span class="line">		 arrayList.add(<span class="number">3</span>);</span><br><span class="line">		 System.out.println(arrayList); <span class="comment">// 输出:  [1, 2, 3]</span></span><br><span class="line">		 </span><br><span class="line">		 <span class="type">Class</span> <span class="variable">clazz</span> <span class="operator">=</span> arrayList.getClass();</span><br><span class="line">		 <span class="type">Method</span>  <span class="variable">m</span> <span class="operator">=</span> clazz.getMethod(<span class="string">&quot;add&quot;</span>,Object.class );</span><br><span class="line">		 </span><br><span class="line">		 m.invoke(arrayList, <span class="string">&quot;String&quot;</span>);</span><br><span class="line">		 </span><br><span class="line">		 System.out.println(<span class="string">&quot;反射后的结果：&quot;</span>+arrayList); <span class="comment">//输出： 反射后的结果：[1, 2, 3, String]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="13-反射的应用场景"><a href="#13-反射的应用场景" class="headerlink" title="13:反射的应用场景"></a>13:反射的应用场景</h3><p>例如Java的动态代理应用了反射,除此以外Java的 <strong>注解</strong>也用到了反射</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DebugInvocationHandler</span> <span class="keyword">implements</span> <span class="title class_">InvocationHandler</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 代理类中的真实对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Object target;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">DebugInvocationHandler</span><span class="params">(Object target)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.target = target;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> InvocationTargetException, IllegalAccessException &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;before method &quot;</span> + method.getName());</span><br><span class="line">        <span class="type">Object</span> <span class="variable">result</span> <span class="operator">=</span> method.invoke(target, args);</span><br><span class="line">        System.out.println(<span class="string">&quot;after method &quot;</span> + method.getName());</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>为什么通过@Component注解就声明一个类为spring bean呢？为什么你通过一个 <code>@Value</code>注解就读取到配置文件中的值呢</strong>：这些都是因为你可以基于反射分析类，然后获取到类&#x2F;属性&#x2F;方法&#x2F;方法参数上的注解。获取到注解之后，就可以做进一步的处理。</p>
+<h3 id="14：注解"><a href="#14：注解" class="headerlink" title="14：注解"></a>14：注解</h3><p>Annotation（注解）是Java5开始引入的新特性，可以看成一种特殊的注释，主要用于修饰类、方法、或者变量，提供某些信息供程序在编译或者运行时使用。</p>
+<p>注解本质是一个继承了Annotation的特殊接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(ElementType.METHOD)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.SOURCE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Override &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Override</span> <span class="keyword">extends</span> <span class="title class_">Annotation</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="15；注解的解析方法有哪几种"><a href="#15；注解的解析方法有哪几种" class="headerlink" title="15；注解的解析方法有哪几种"></a>15；注解的解析方法有哪几种</h3><p>注解只有被解析之后才会生效，常见的解析方法有两种</p>
+<ul>
+<li>编译期直接扫描：编译器在编译Java代码的时候扫描对应的注解并处理，比如某个方法使用@Override注解，编译器在编译的时候就会检测当前的方法是否重写了父类对应的方法。</li>
+<li>运行时通过反射处理：像框架中自带的注解都是通过反射来进行处理的。</li>
+</ul>
+<h3 id="16：SPI"><a href="#16：SPI" class="headerlink" title="16：SPI"></a>16：SPI</h3><p>SPI即Service Provider Interface，可理解为：专门提供给服务提供者或者扩展框架功能的开发者去使用的一个接口。</p>
+<p>SPI：将服务接口和具体的服务实现分离开来，将服务调用方和服务实现者解耦，能够提升程序的扩展性、可维护性。修改或者替换服务实现并不需要修改调用方。</p>
+<p>很多框架都使用了Java的SPI机制，比如Spring框架、数据库加载驱动、日志接口。</p>
+<p><img src="C:\Users\Acer\AppData\Roaming\Typora\typora-user-images\image-20240109112101946.png" alt="image-20240109112101946" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h3 id="17-SPI和API有什么区别"><a href="#17-SPI和API有什么区别" class="headerlink" title="17:SPI和API有什么区别"></a>17:SPI和API有什么区别</h3><img src = "C:\Users\Acer\AppData\Roaming\Typora\typora-user-images\image-20240109152638128.png" width="500px" height="500px" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'/>
+
+<ul>
+<li>当实现方提供了接口和实现，我们可以通过调用实现方的接口从而拥有实现方提供给我们的功能，接口和实现都是放在实现方的，这就是API</li>
+<li>当接口存在于调用方这边时，就是SPI,由接口调用方确定接口规则，然后由不同的厂商去根据这个规则对这个接口进行实现，从而提供服务。</li>
+</ul>
+<h3 id="18：SPI的优缺点"><a href="#18：SPI的优缺点" class="headerlink" title="18：SPI的优缺点"></a>18：SPI的优缺点</h3><p>通过SPI机制能够大大地提高接口设计的灵活性，但也存在一些缺点：</p>
+<ul>
+<li>需要遍历加载所有的实现类，不能做到按需加载，这样效率是相对较低的</li>
+<li>当多个ServiceLoader同时Load时，会由并发问题。</li>
+</ul>
+<p><strong>在通过JDBC连接不同的数据库时，调用方只规定了具体的接口，而具体的驱动实现要依赖不同的厂家。</strong></p>
+<h3 id="19：什么是序列化和反序列化"><a href="#19：什么是序列化和反序列化" class="headerlink" title="19：什么是序列化和反序列化"></a>19：什么是序列化和反序列化</h3><ul>
+<li>序列化：将数据结构或对象转换为二进制字节流的过程</li>
+<li>反序列化：将在序列化过程中所产生的二进制字节流转换成数据结构或者对象的过程</li>
+</ul>
+<p>像Java这种面向对象编程语言来说，序列化的都是对象（Object）也就是实例化后的类(Class)，但是在C++这种半面向对象的语言中，struct（结构体）定义的是数据结构类型，而class对应的是对象类型.</p>
+<p><strong>常见的序列化和反序列化场景</strong></p>
+<ul>
+<li>对象在进行网络传输时（比如远程方法调用RPC的时候）之前需要被先序列化，接收到序列化的对象之后需要再进行反序列化；</li>
+<li>将对象存储到文件之前需要进行序列化，将对象从文件中读取出来需要进行反序列化</li>
+<li>将对象存储到数据库（如Redis）之前需要用到序列化，将对象从缓存数据中读取出来需要进行反序列化</li>
+<li>将对象存储到内存之前需要进行序列化，从内存中读取出来之后需要进行反序列化。</li>
+</ul>
+<p><strong>综上：序列化的目的主要是通过网络传输对象或者将对象存储到文件系统、数据库、内存中</strong></p>
+<p><img src="C:\Users\Acer\AppData\Roaming\Typora\typora-user-images\image-20240109160936238.png" alt="image-20240109160936238" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h3 id="20：序列化对应于TCP-IP-4层模型的哪一层"><a href="#20：序列化对应于TCP-IP-4层模型的哪一层" class="headerlink" title="20：序列化对应于TCP&#x2F;IP 4层模型的哪一层?"></a>20：序列化对应于TCP&#x2F;IP 4层模型的哪一层?</h3><p><img src="C:\Users\Acer\AppData\Roaming\Typora\typora-user-images\image-20240109161116304.png" alt="image-20240109161116304" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<p>在OSI七层模型中，表示层做的事情主要就是对应用层的数据进行处理转换为二进制流。反过来就是将二进制流转换成应用层的用户数据，这就对应着序列化和反序列化。因为OSI的七层协议模型中的应用层、表示层、和会话层对应的都是TCP&#x2F;IP四层模型的因公层，所以对应TCP&#x2F;IP应该属于应用层的一部分。</p>
+<h3 id="21：如果有些字段不想进行序列化怎么办"><a href="#21：如果有些字段不想进行序列化怎么办" class="headerlink" title="21：如果有些字段不想进行序列化怎么办"></a>21：如果有些字段不想进行序列化怎么办</h3><p>对于不想进行序列化的变量，使用transient关键字修饰。</p>
+<p>transient：阻止实例中那些用此关键字修饰的变量的序列化，当对象被反序列化时，被transient修饰的变量值不会被持久化和恢复，也就是在反序列化时，transient修饰的字段会被赋予默认值，而不是从序列化数据中进行恢复。</p>
+<p><strong>持久化</strong>：通常值是将程序中的数据或对象保存在某种持久存储介质（如硬盘、数据库）中，以便在程序关闭或系统重启后能够保留数据。</p>
+<p><strong>transient使用时需要注意</strong></p>
+<ul>
+<li>transient只能修饰变量，不能修饰类和方法</li>
+<li>transient修饰的变量，在反序列化后变量值将会被设置成类型的默认值。例如，如果是修饰 <code>int</code> 类型，那么反序列后结果就是 <code>0</code>。</li>
+<li>static变量因为不属于任何对象（Object）所以无论有没有transient关键字修饰，均不会被序列化</li>
+</ul>
+<p><strong>常见的序列化协议有哪些</strong></p>
+<p>JDK自带的序列化协议一般不会用，因为序列化效率低并且存在安全问题。比较常用的序列化协议有Hessian、Kryo、Protobuf、ProtoStuff,这些都是基于二进制的序列化协议。像JSON和XML这种属于文本类序列化方式，虽然可读性比较好，但是性能差，一般不会选择。</p>
+<p><strong>JDK自带的序列化方式</strong>:只要实现java.io.Serializable</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="meta">@Getter</span></span><br><span class="line"><span class="meta">@Builder</span></span><br><span class="line"><span class="meta">@ToString</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RpcRequest</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">1905122041950251207L</span>;</span><br><span class="line">    <span class="keyword">private</span> String requestId;</span><br><span class="line">    <span class="keyword">private</span> String interfaceName;</span><br><span class="line">    <span class="keyword">private</span> String methodName;</span><br><span class="line">    <span class="keyword">private</span> Object[] parameters;</span><br><span class="line">    <span class="keyword">private</span> Class&lt;?&gt;[] paramTypes;</span><br><span class="line">    <span class="keyword">private</span> RpcMessageTypeEnum rpcMessageTypeEnum;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>serialVersionUID有什么作用</strong>：序列化号<code>serialVersionUID</code>属于版本控制的作用。在进行序列化时，会生成一个serialVersionUID，反序列化时, JVM会再根据类的结构自动生成一个新版serialVersionUID, 然后将这个新版serialVersionUID与序列化时生成的旧版serialVersionUID进行比较, 如果相同则反序列化成功, 否则报错报InvalidClassException异常。建议每个序列化类都手动指定serialVersionUID，如果不手动指定，那么编译器会动态生成默认的serialVersionUID。</p>
+<p><strong>为什么serialVersionUID被static变量修饰了？为什么还会被序列化</strong>:static修饰的变量是静态变量，位于方法区，本身是不会被序列化的，但是，serialVersionUID的序列化做了特殊处理，在序列化时，会将serialVersionUID序列化到二进制流中，在反序列化时，也会解析它做一致性判断。</p>
+<p><strong>为什么不推荐使用JDK自带的序列化</strong></p>
+<ul>
+<li>不支持跨语言调用：如果调用的是其他语言开发的服务的时候就不支持了。</li>
+<li>性能差：相比其他序列化框架性能更低，主要原因是序列化之后的字节数组织体积较大，导致传输成本加大。</li>
+<li>存在安全问题：序列化和反序列化本身并不存在问题，但当输入的反序列化数据可被用户控制，那么攻击者可通过构造恶意输入，让反序列化产生<strong>非预期</strong>的对象，在此过程中执行构造的任意代码。</li>
+</ul>
+<h3 id="22：Java中的IO"><a href="#22：Java中的IO" class="headerlink" title="22：Java中的IO"></a>22：Java中的IO</h3><p>IO即Input&#x2F;Output,输入和输出。数据输入到计算机内存的过程即输入，反之输出到外部存储（比如数据库，文件，远程主机）的过程即输出.数据传输过程类似于水流，因此称为IO流。IO流在Java中分为输入流和输出流，而根据数据的处理方式又分为字节流和字符流。</p>
+<p>Java IO流的40多个类都是从如下4个抽象基类中派生出来的</p>
+<ul>
+<li>InputStream&#x2F;Reader:所有的输入流的基类，前者都是字节输入流，后者是字符输入流</li>
+<li>OutputStream&#x2F;Writer:所有输出流的基类，前者是字节输出流，后者是字符输出流。</li>
+</ul>
+<p><strong>I&#x2F;O流为什么要分为字节流和字符流呢？</strong></p>
+<p>问题本质想问：不管是文件读写还是网络发送接收，信息的最小存储单元都是字节，那为什么I&#x2F;O流操作还要分为字节流操作和字符流操作呢？</p>
+<ul>
+<li>字符流（适用于任何场景）是由Java虚拟机将字节转换得来的，这个过程还算比较耗时的，例如在读取汉字时，如果通过字节流读取汉字的时候逐个转换就会导致乱码，而手动根据不同编码规则去拼接则不方便。</li>
+<li>如果我们不知道编码类型的话，使用字节流的过程很容易出现乱码问题。</li>
+<li>图像、音频、视频等文件都是以二进制数据表示的，而文本文件都是以字符表示的，分为字节流和字符流为了更好的满足&#x3D;&#x3D;不同数据类型的处理需求&#x3D;&#x3D;</li>
+</ul>
+<h3 id="23：什么是语法糖"><a href="#23：什么是语法糖" class="headerlink" title="23：什么是语法糖"></a>23：什么是语法糖</h3><p><strong>语法糖</strong>：（Syntactic sugar）代指的是编程语言为了方便程序员开发程序而设计的一种特殊语法，这种语法对编程语言的功能并没有影响，实现相同的功能，基于语法糖写出来的代码更加简单。</p>
+<p>举个例子，Java 中的 <code>for-each</code> 就是一个常用的语法糖，其原理其实就是基于普通的 for 循环和迭代器。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String[] strs = &#123;<span class="string">&quot;JavaGuide&quot;</span>, <span class="string">&quot;公众号：JavaGuide&quot;</span>, <span class="string">&quot;博客：https://javaguide.cn/&quot;</span>&#125;;</span><br><span class="line"><span class="keyword">for</span> (String s : strs) &#123;</span><br><span class="line">  	System.out.println(s);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>不过JVM并不支持语法糖，Java语法糖要想被正确执行，需要先通过编译器进行解糖，也就是在程序编译阶段将其转换成JVM认识的基本语法，这也侧面说明了Java中真正支持语法糖的是Java编译器，而不是JVM。</p>
+<p><strong>Java中有哪些常见的语法糖</strong>:泛型、自动拆装箱、变长参数、枚举、内部类、增强for循环、try-with-resources、lambda表达式。</p>
+
+</article>
+    
+    
+
+</div>
+<div id="post-next-prev" class="row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            Other Articles
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2024/01/18/java%E9%9B%86%E5%90%88%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93%E4%B8%8A/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" #.">
+                    Unclassified
+                </a>
+            </div>
+            <h5>
+                <a href="/2024/01/18/java%E9%9B%86%E5%90%88%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93%E4%B8%8A/" class="trm-anima-link">
+                    
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>24/01/18</li>
+                <li>17:37</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2024/01/18/java%E5%9F%BA%E7%A1%802/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" #.">
+                    Unclassified
+                </a>
+            </div>
+            <h5>
+                <a href="/2024/01/18/java%E5%9F%BA%E7%A1%802/" class="trm-anima-link">
+                    
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>24/01/18</li>
+                <li>17:37</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-scroll-animation">
+
+    
+
+    
+
+    
+        <div class="trm-footer-item">
+            <span>
+                Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> v7.0.0
+            </span>
+            <span class="footer-separator" data-separator=" | "></span>
+            <span> 
+                Theme - 
+                <a rel="noopener" href='https://github.com/MaLuns/hexo-theme-async' target='_blank'>Async</a>
+                v2.1.0-beta.2
+            </span>
+        </div>
+      
+
+     
+
+     
+</footer>
+ 
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            
+
+            
+<div class="trm-fixed-container">
+    
+        <div class="trm-fixed-btn post-toc-btn" data-title="Open toc">
+            <i class="iconfont fas fa-th-list"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="Back To Top">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+  </div>
+  <!-- app wrapper end -->
+
+  
+  <!-- Plugin -->
+
+
+
+
+    
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+
+    <!-- 数学公式 -->
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+    
+
+
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+
+
+<script id="async-script" src="/js/main.js?v=2.1.0-beta.2"></script>
+
+</body>
+
+</html>
